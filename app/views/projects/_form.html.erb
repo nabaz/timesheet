@@ -1,0 +1,37 @@
+<%= form_for @project, url: projects_path do |f| %>
+  <% if project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+      <ul>
+      <% project.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+
+  <%= f.label :description %>
+  <%= f.text_field :description %>
+
+  <%= f.label :customer %>
+  <%= f.select :customer do %>
+    <% Customer.all.each do |s| -%>
+      <%= content_tag(:option, s.name, value: s.id) %>
+    <% end %>
+  <% end %>
+  <%= select_tag "project_form[user]", options_from_collection_for_select(User.all.each { |u| [u.name, u.id] }, "id", "name"),  {:multiple => true, :size => 10} %>
+
+  <%= f.label :status %>
+
+  <%= f.select :status, multiple: true  do %>
+    <% ProjectForm::STATUSES.each do |s| -%>
+      <%= content_tag(:option, s, value: s, multiple: true) %>
+    <% end %>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

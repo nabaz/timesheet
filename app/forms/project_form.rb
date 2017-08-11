@@ -22,7 +22,6 @@ class ProjectForm
 
   private
     def persist!
-      byebug
       project = Project.create!(
           name: name,
           description: description,
